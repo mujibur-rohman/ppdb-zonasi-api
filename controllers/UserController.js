@@ -1,7 +1,5 @@
 import Users from "../models/UsersModel.js";
 import argon2 from "argon2";
-import ProfileSchool from "../models/ProfileSchoolModel.js";
-import { validationResult } from "express-validator";
 
 export const getUsers = async (req, res) => {
   try {
@@ -16,6 +14,23 @@ export const getUsers = async (req, res) => {
       ],
     });
     res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteUsers = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await Users.findOne({
+      where: {
+        uuid: id,
+      },
+    });
+    if (!user) return res.status(404).json({ message: "User bot Found" });
+
+    await Users.destroy({ where: { id: user.id } });
+    res.status(200).json({ message: "User deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
