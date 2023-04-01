@@ -6,13 +6,15 @@ import {
 } from "../controllers/ProfileSchoolController.js";
 import { body, checkSchema } from "express-validator";
 import { checkErrorsBody } from "../middleware/checkErrorsBody.js";
+import verifyJWT from "../controllers/verifyJWT.js";
 
 const ProfileSchoolRoute = express.Router();
 
-ProfileSchoolRoute.post("/profile-school", createProfileSchool);
+ProfileSchoolRoute.post("/profile-school", verifyJWT, createProfileSchool);
 ProfileSchoolRoute.get("/profile-school", getProfileSchool);
 ProfileSchoolRoute.put(
   "/profile-school/:id",
+  verifyJWT,
   body("schoolName").notEmpty().trim(),
   body("address").notEmpty().trim(),
   body("provinsi").notEmpty().trim(),

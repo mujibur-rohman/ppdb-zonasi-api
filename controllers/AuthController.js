@@ -17,7 +17,7 @@ export const LoginAdmin = async (req, res) => {
     // Set tokennya
     const accessToken = jwt.sign(
       {
-        UserInfo: {
+        user: {
           uuid: user.uuid,
           email: user.email,
           role: user.role,

@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import ProfileSchool from "../models/ProfileSchoolModel.js";
 
 export const getProfileSchool = async (req, res) => {
