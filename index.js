@@ -5,6 +5,7 @@ import cors from "cors";
 import db from "./config/database.js";
 import ProfileSchoolRoute from "./routers/ProfileSchoolRoute.js";
 import AuthRoute from "./routers/AuthRoute.js";
+import JurusanRoute from "./routers/JurusanRoute.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(UserRoute);
 app.use(AuthRoute);
 app.use(ProfileSchoolRoute);
+app.use(JurusanRoute);
 
 (async () => {
   await db.sync();
