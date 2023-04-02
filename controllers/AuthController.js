@@ -18,7 +18,7 @@ export const LoginAdmin = async (req, res) => {
     const accessToken = jwt.sign(
       {
         user: {
-          uuid: user.uuid,
+          id: user.id,
           email: user.email,
           role: user.role,
         },
