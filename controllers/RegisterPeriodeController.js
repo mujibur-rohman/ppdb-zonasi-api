@@ -1,3 +1,4 @@
+import Jurusan from "../models/JurusanModels.js";
 import Kuota from "../models/KuotaModel.js";
 import RegisterPeriod from "../models/RegisterPeriodeModel.js";
 
@@ -26,10 +27,29 @@ export const createRegisterPeriode = async (req, res) => {
   }
 };
 
-// export const getRegisterPeriode = async (req, res) => {
-//   try {
-//     const
-//   } catch (error) {
-
-//   }
-// }
+export const getRegisterPeriode = async (req, res) => {
+  try {
+    const registerPeriod = await RegisterPeriod.findAll({
+      attributes: ["id", "tahunAjaran", "startDate", "endDate"],
+      include: [
+        {
+          model: Kuota,
+          attributes: ["id", "kuota"],
+          include: {
+            model: Jurusan,
+            attributes: ["id", "name"],
+          },
+        },
+      ],
+    });
+    let response = [];
+    registerPeriod.forEach((items) => {
+      response.push({
+        registerPeriode: items,
+      });
+    });
+    res.status(200).json(registerPeriod);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
