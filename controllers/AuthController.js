@@ -1,6 +1,7 @@
 import argon2 from "argon2";
 import Users from "../models/UsersModel.js";
 import jwt from "jsonwebtoken";
+import { ADMIN_ROLES } from "../constants/roles.js";
 
 export const LoginAdmin = async (req, res) => {
   try {
@@ -14,12 +15,16 @@ export const LoginAdmin = async (req, res) => {
     // Jika user ada maka cek password
     const match = await argon2.verify(user.password, req.body.password);
     if (!match) return res.status(400).json({ message: "Wrong Password" });
+    // Jika rolenya bukan admin
+    if (!ADMIN_ROLES.includes(user.role))
+      return res.status(403).json({ message: "Not Authorization" });
     // Set tokennya
     const accessToken = jwt.sign(
       {
         user: {
           id: user.id,
           uuid: user.uuid,
+          fullName: user.fullName,
           email: user.email,
           role: user.role,
         },
@@ -32,10 +37,12 @@ export const LoginAdmin = async (req, res) => {
     res.cookie("accessToken", accessToken, { maxAge: 10000000 });
 
     const uuid = user.uuid;
+    const id = user.id;
     const fullName = user.fullName;
     const email = user.email;
     const role = user.role;
     res.status(200).json({
+      id,
       uuid,
       fullName,
       email,
