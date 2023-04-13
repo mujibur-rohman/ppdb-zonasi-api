@@ -7,6 +7,7 @@ import ProfileSchoolRoute from "./routers/ProfileSchoolRoute.js";
 import AuthRoute from "./routers/AuthRoute.js";
 import JurusanRoute from "./routers/JurusanRoute.js";
 import RegisterPeriodRoute from "./routers/RegisterPeriodRoute.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
   })
 );
 
@@ -26,6 +27,7 @@ app.use(AuthRoute);
 app.use(ProfileSchoolRoute);
 app.use(JurusanRoute);
 app.use(RegisterPeriodRoute);
+app.use(cookieParser());
 
 (async () => {
   await db.sync();

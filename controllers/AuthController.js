@@ -19,6 +19,7 @@ export const LoginAdmin = async (req, res) => {
       {
         user: {
           id: user.id,
+          uuid: user.uuid,
           email: user.email,
           role: user.role,
         },
@@ -26,6 +27,9 @@ export const LoginAdmin = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "24h" }
     );
+
+    // passing cookie
+    res.cookie("accessToken", accessToken, { maxAge: 10000000 });
 
     const uuid = user.uuid;
     const fullName = user.fullName;
@@ -44,8 +48,25 @@ export const LoginAdmin = async (req, res) => {
 };
 
 export const LogoutAdmin = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) return res.status(400).json({ message: "Cannot logout" });
-    res.status(200).json({ message: "You has logout" });
-  });
+  if (!res.locals.cookie.accessToken) {
+    return res.status(405).json({ message: "Anda tidak login" });
+  }
+  res.clearCookie("accessToken");
+  res.json({ message: "Logout Success" });
+};
+export const Me = (req, res) => {
+  if (!res.locals.cookie.accessToken) {
+    return res.status(405).json({ message: "Anda belum login" });
+  }
+
+  let user;
+  jwt.verify(
+    res.locals.cookie.accessToken,
+    process.env.ACCESS_TOKEN_SECRET,
+    (err, decoded) => {
+      if (err) return res.status(403).json({ message: "Invalid Token" }); //invalid token
+      user = decoded.user;
+    }
+  );
+  res.json({ user });
 };
