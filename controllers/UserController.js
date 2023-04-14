@@ -1,9 +1,57 @@
+import { Op } from "sequelize";
 import Users from "../models/UsersModel.js";
 import argon2 from "argon2";
 
 export const getUsers = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || "";
+    const role = req.query.role || "";
+    const offset = limit * page - limit;
+    console.log(role);
+
+    const totalRows = await Users.count({
+      where: {
+        [Op.or]: [
+          {
+            fullName: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+          {
+            email: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+        ],
+        role: {
+          [Op.like]: "%" + role + "%",
+        },
+      },
+    });
+    const totalPage = Math.ceil(totalRows / limit);
     const response = await Users.findAll({
+      where: {
+        [Op.or]: [
+          {
+            fullName: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+          {
+            email: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+        ],
+        role: {
+          [Op.like]: "%" + role + "%",
+        },
+      },
+      offset: offset,
+      limit: limit,
+      order: [["fullName", "ASC"]],
       attributes: [
         "uuid",
         "fullName",
@@ -13,7 +61,13 @@ export const getUsers = async (req, res) => {
         "updatedAt",
       ],
     });
-    res.status(200).json(response);
+    res.status(200).json({
+      data: response,
+      page: page,
+      limit: limit,
+      totalRows: totalRows,
+      totalPage: totalPage,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
