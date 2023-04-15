@@ -27,6 +27,7 @@ export const LoginAdmin = async (req, res) => {
           fullName: user.fullName,
           email: user.email,
           role: user.role,
+          isEmailVerified: user.isEmailVerified,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
@@ -41,12 +42,14 @@ export const LoginAdmin = async (req, res) => {
     const fullName = user.fullName;
     const email = user.email;
     const role = user.role;
+    const isEmailVerified = user.isEmailVerified;
     res.status(200).json({
       id,
       uuid,
       fullName,
       email,
       role,
+      isEmailVerified,
       token: { accessToken, expired: 60 * 24 },
     });
   } catch (error) {

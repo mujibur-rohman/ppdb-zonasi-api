@@ -57,6 +57,7 @@ export const getUsers = async (req, res) => {
         "fullName",
         "email",
         "role",
+        "isEmailVerified",
         "createdAt",
         "updatedAt",
       ],
@@ -106,6 +107,7 @@ export const createUser = async (req, res) => {
       email,
       password: hashPassword,
       role,
+      isEmailVerified: false,
     });
     res.status(201).json({ message: "User Create Successfully" });
   } catch (error) {
@@ -128,6 +130,7 @@ export const updateFullName = async (req, res) => {
         email: user.email,
         password: user.password,
         role: user.role,
+        isEmailVerified: user.isEmailVerified,
       },
       {
         where: {
@@ -156,6 +159,7 @@ export const updatePassword = async (req, res) => {
         email: user.email,
         password: await argon2.hash(req.body.newPassword),
         role: user.role,
+        isEmailVerified: user.isEmailVerified,
       },
       {
         where: {

@@ -42,6 +42,13 @@ const Users = db.define(
         notEmpty: true,
       },
     },
+    isEmailVerified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
   {
     freezeTableName: true,
