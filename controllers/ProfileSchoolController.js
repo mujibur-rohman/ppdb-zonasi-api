@@ -28,7 +28,6 @@ export const createProfileSchool = async (req, res) => {
     const isAvailable = await ProfileSchool.count();
     if (isAvailable > 0)
       return res.status(403).json({ message: "Profile School is Available" });
-    console.log(isAvailable);
     await ProfileSchool.create({
       schoolName,
       address,

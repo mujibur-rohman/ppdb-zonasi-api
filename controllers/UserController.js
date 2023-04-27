@@ -5,11 +5,10 @@ import argon2 from "argon2";
 export const getUsers = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 3;
     const search = req.query.search || "";
     const role = req.query.role || "";
     const offset = limit * page - limit;
-    console.log(role);
 
     const totalRows = await Users.count({
       where: {
@@ -53,6 +52,7 @@ export const getUsers = async (req, res) => {
       limit: limit,
       order: [["fullName", "ASC"]],
       attributes: [
+        "id",
         "uuid",
         "fullName",
         "email",

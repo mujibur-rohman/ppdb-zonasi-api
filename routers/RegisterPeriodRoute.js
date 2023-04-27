@@ -11,18 +11,8 @@ import { verifyIsAdmin } from "../middleware/verifyIsAdmin.js";
 
 const RegisterPeriodRoute = express.Router();
 
-RegisterPeriodRoute.post(
-  "/register-periode",
-  verifyJWT,
-  verifyIsAdmin,
-  createRegisterPeriode
-);
-RegisterPeriodRoute.get(
-  "/register-periode",
-  verifyJWT,
-  verifyIsAdmin,
-  getRegisterPeriode
-);
+RegisterPeriodRoute.post("/register-periode", createRegisterPeriode);
+RegisterPeriodRoute.get("/register-periode", getRegisterPeriode);
 RegisterPeriodRoute.put(
   "/register-periode/:id",
   body("tahunAjaran").notEmpty(),
@@ -30,8 +20,6 @@ RegisterPeriodRoute.put(
   body("endDate").notEmpty(),
   body("kuota").notEmpty(),
   checkErrorsBody,
-  verifyJWT,
-  verifyIsAdmin,
   updateRegisterPeriode
 );
 

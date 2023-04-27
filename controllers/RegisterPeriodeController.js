@@ -4,7 +4,7 @@ import RegisterPeriod from "../models/RegisterPeriodeModel.js";
 
 export const createRegisterPeriode = async (req, res) => {
   try {
-    const { tahunAjaran, startDate, kuota, endDate } = req.body;
+    const { tahunAjaran, startDate, kuota, endDate, userId } = req.body;
     // cek apakah tahun ajaran sudah tersedia
     const foundAvailable = await RegisterPeriod.findOne({
       where: {
@@ -17,7 +17,7 @@ export const createRegisterPeriode = async (req, res) => {
 
     // buat register periode
     const registerPer = await RegisterPeriod.create({
-      userId: req.id,
+      userId,
       tahunAjaran,
       startDate,
       endDate,

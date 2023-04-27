@@ -2,7 +2,6 @@ const getCookie = async (req, res, next) => {
   const {
     headers: { cookie },
   } = req;
-  console.log(cookie);
   if (cookie) {
     const values = cookie.split(";").reduce((res, item) => {
       const data = item.trim().split("=");
