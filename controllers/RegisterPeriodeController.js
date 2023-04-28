@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Jurusan from "../models/JurusanModels.js";
 import Kuota from "../models/KuotaModel.js";
 import RegisterPeriod from "../models/RegisterPeriodeModel.js";
@@ -39,8 +40,30 @@ export const createRegisterPeriode = async (req, res) => {
 
 export const getRegisterPeriode = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const tahunAjaran = req.query.tahunAjaran || "";
+    const offset = limit * page - limit;
+
+    const totalRows = await RegisterPeriod.count({
+      where: {
+        tahunAjaran: {
+          [Op.like]: "%" + tahunAjaran + "%",
+        },
+      },
+    });
+
+    const totalPage = Math.ceil(totalRows / limit);
+
     const registerPeriod = await RegisterPeriod.findAll({
       attributes: ["id", "tahunAjaran", "startDate", "endDate"],
+      where: {
+        tahunAjaran: {
+          [Op.like]: "%" + tahunAjaran + "%",
+        },
+      },
+      limit,
+      offset,
       include: [
         {
           model: Kuota,
@@ -58,7 +81,9 @@ export const getRegisterPeriode = async (req, res) => {
         registerPeriode: items,
       });
     });
-    res.status(200).json(registerPeriod);
+    res
+      .status(200)
+      .json({ data: registerPeriod, page, limit, totalRows, totalPage });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
