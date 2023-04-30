@@ -1,6 +1,8 @@
 import express from "express";
 import {
   createRegisterPeriode,
+  deleteRegisterPeriode,
+  getByIdRegisterPeriode,
   getRegisterPeriode,
   updateRegisterPeriode,
 } from "../controllers/RegisterPeriodeController.js";
@@ -13,6 +15,8 @@ const RegisterPeriodRoute = express.Router();
 
 RegisterPeriodRoute.post("/register-periode", createRegisterPeriode);
 RegisterPeriodRoute.get("/register-periode", getRegisterPeriode);
+RegisterPeriodRoute.get("/register-periode/:id", getByIdRegisterPeriode);
+RegisterPeriodRoute.delete("/register-periode/:id", deleteRegisterPeriode);
 RegisterPeriodRoute.put(
   "/register-periode/:id",
   body("tahunAjaran").notEmpty(),

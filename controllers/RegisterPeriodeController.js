@@ -30,7 +30,9 @@ export const createRegisterPeriode = async (req, res) => {
         registerPeriodId: registerPer.id,
         jurusanId: item.jurusan,
         kuota: item.kuota,
-      });
+      })
+        .then(() => console.log("Success"))
+        .catch((err) => console.log(err));
     });
     res.status(200).json({ message: "Register Periode Create Successfully" });
   } catch (error) {
@@ -64,6 +66,7 @@ export const getRegisterPeriode = async (req, res) => {
       },
       limit,
       offset,
+      order: ["tahunAjaran"],
       include: [
         {
           model: Kuota,
@@ -74,12 +77,6 @@ export const getRegisterPeriode = async (req, res) => {
           },
         },
       ],
-    });
-    let response = [];
-    registerPeriod.forEach((items) => {
-      response.push({
-        registerPeriode: items,
-      });
     });
     res
       .status(200)
@@ -121,13 +118,53 @@ export const updateRegisterPeriode = async (req, res) => {
         },
         {
           where: {
-            registerPeriodId: registerPer.id,
+            [Op.and]: [
+              { registerPeriodId: registerPer.id },
+              { jurusanId: item.jurusan },
+            ],
           },
         }
       );
     });
 
     res.status(200).json({ message: "Register Periode Upddated!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteRegisterPeriode = async (req, res) => {
+  try {
+    const regPer = await RegisterPeriod.findOne({
+      where: { id: req.params.id },
+    });
+    if (!regPer)
+      return res.status(404).json({ message: "Periode Pendaftaran Not Found" });
+    await RegisterPeriod.destroy({ where: { id: req.params.id } });
+    res.status(200).json({ message: "Periode Pendaftaran Berhasil Dihapus" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getByIdRegisterPeriode = async (req, res) => {
+  try {
+    const regPer = await RegisterPeriod.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: Kuota,
+          attributes: ["id", "kuota"],
+          include: {
+            model: Jurusan,
+            attributes: ["id", "name"],
+          },
+        },
+      ],
+    });
+    if (!regPer)
+      return res.status(404).json({ message: "Periode Pendaftaran Not Found" });
+    res.status(200).json(regPer);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
