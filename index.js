@@ -8,6 +8,7 @@ import AuthRoute from "./routers/AuthRoute.js";
 import JurusanRoute from "./routers/JurusanRoute.js";
 import RegisterPeriodRoute from "./routers/RegisterPeriodRoute.js";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 
 dotenv.config();
 
@@ -22,12 +23,14 @@ app.use(
 );
 
 app.use(express.json());
+app.use(fileUpload());
+app.use(cookieParser());
+app.use(express.static("public"));
 app.use(UserRoute);
 app.use(AuthRoute);
 app.use(ProfileSchoolRoute);
 app.use(JurusanRoute);
 app.use(RegisterPeriodRoute);
-app.use(cookieParser());
 
 (async () => {
   await db.sync();

@@ -11,17 +11,10 @@ import { verifyIsAdmin } from "../middleware/verifyIsAdmin.js";
 
 const ProfileSchoolRoute = express.Router();
 
-ProfileSchoolRoute.post(
-  "/profile-school",
-  verifyJWT,
-  verifyIsAdmin,
-  createProfileSchool
-);
+ProfileSchoolRoute.post("/profile-school", createProfileSchool);
 ProfileSchoolRoute.get("/profile-school", getProfileSchool);
 ProfileSchoolRoute.put(
-  "/profile-school/:id",
-  verifyJWT,
-  verifyIsAdmin,
+  "/profile-school",
   body("schoolName").notEmpty().trim(),
   body("address").notEmpty().trim(),
   body("provinsi").notEmpty().trim(),
@@ -29,7 +22,6 @@ ProfileSchoolRoute.put(
   body("kecamatan").notEmpty().trim(),
   body("kodePos").notEmpty().trim(),
   body("npsn").notEmpty().trim(),
-  body("logo").notEmpty().trim(),
   body("latitude").notEmpty().trim(),
   body("longitude").notEmpty().trim(),
   checkErrorsBody,
