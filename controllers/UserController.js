@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import Users from "../models/UsersModel.js";
 import argon2 from "argon2";
+import sendVerificationEmail from "../utils/sendVerificationEmail.js";
 
 export const getUsers = async (req, res) => {
   try {
@@ -101,15 +102,58 @@ export const createUser = async (req, res) => {
       },
     });
     if (user) return res.status(400).json({ message: "User already exists" });
-
-    await Users.create({
+    const newUser = await Users.create({
       fullName,
       email,
       password: hashPassword,
       role,
       isEmailVerified: false,
     });
+    await sendVerificationEmail(newUser.email);
     res.status(201).json({ message: "User Create Successfully" });
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
+export const sendEmail = async (req, res) => {
+  const user = await Users.findOne({
+    where: {
+      uuid: req.params.id,
+    },
+  });
+
+  if (!user) return res.status(404).json({ message: "User not Found" });
+  if (user.isEmailVerified)
+    return res.status(403).json({ message: "Email Sudah Terverifikasi" });
+  sendVerificationEmail(user);
+  res.status(200).json({ message: "Email has Sent" });
+};
+
+export const verifyEmail = async (req, res) => {
+  const user = await Users.findOne({
+    where: {
+      uuid: req.params.id,
+    },
+  });
+
+  if (!user) return res.status(404).json({ message: "User not Found" });
+  try {
+    await Users.update(
+      {
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+        isEmailVerified: true,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+      }
+    );
+    res.status(200).json({ message: "Email has Verified" });
   } catch (error) {
     res.status(400).json(error.message);
   }

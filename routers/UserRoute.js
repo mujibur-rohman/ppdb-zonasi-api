@@ -4,16 +4,18 @@ import {
   createUser,
   deleteUsers,
   getUsers,
+  sendEmail,
   updateFullName,
   updatePassword,
+  verifyEmail,
 } from "../controllers/UserController.js";
-import verifyJWT from "../middleware/verifyJWT.js";
 import { checkErrorsBody } from "../middleware/checkErrorsBody.js";
-import { verifyIsAdmin } from "../middleware/verifyIsAdmin.js";
 
 const UserRoute = express.Router();
 
 UserRoute.get("/users", getUsers);
+UserRoute.post("/users/verifiy-email/:id", verifyEmail);
+UserRoute.post("/users/send-email/:id", sendEmail);
 UserRoute.post("/users", createUser);
 UserRoute.delete("/users/:id", deleteUsers);
 UserRoute.put(

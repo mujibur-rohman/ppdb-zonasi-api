@@ -111,6 +111,30 @@ export const LoginSiswa = async (req, res) => {
   }
 };
 
+export const RegisterSiswa = async (req, res) => {
+  const { fullName, email, password } = req.body;
+  const hashPassword = await argon2.hash(password);
+  try {
+    const user = await Users.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+    if (user) return res.status(400).json({ message: "Email Sudah Terdaftar" });
+    await Users.create({
+      fullName,
+      email,
+      password: hashPassword,
+      role: 2,
+      isEmailVerified: false,
+    });
+    await sendVerificationEmail(email);
+    res.status(201).json({ message: "Email Berhasil Terdaftar" });
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+};
+
 export const Logout = (req, res) => {
   if (!res.locals.cookie.accessToken) {
     return res.status(405).json({ message: "Anda tidak login" });

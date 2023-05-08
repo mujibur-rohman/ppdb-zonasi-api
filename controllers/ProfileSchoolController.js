@@ -31,7 +31,6 @@ export const createProfileSchool = async (req, res) => {
     return res.status(403).json({ message: "Profile School is Available" });
   if (req.files === null)
     return res.status(400).json({ msg: "No File Uploaded" });
-
   const logo = req.files.logo;
   const fileSize = logo?.data.length;
   const ext = path.extname(logo?.name);
