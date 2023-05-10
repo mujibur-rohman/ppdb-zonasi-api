@@ -8,7 +8,7 @@ const sendVerificationEmail = async (user) => {
     subject: "Verifikasi Email", // Subject line
     // text: "For your security, please verify your account by clicking the button below.",
     html: `<p>Demi keamanan, klik tulisan dibawah ini untuk aktivasi email agar dapat login.</p>
-      <a style="background-color:#0591f5; color:#fff; padding: 3px 5px; display:inline-block; text-decoration:none; border-radius:5px;" href="${process.env.CLIENT_URL}">Verifikasi Email</a>
+      <a style="background-color:#0591f5; color:#fff; padding: 3px 5px; display:inline-block; text-decoration:none; border-radius:5px;" href="${process.env.CLIENT_URL}/verified/${user.uuid}">Verifikasi Email</a>
     `,
   };
 
