@@ -139,20 +139,20 @@ export const verifyEmail = async (req, res) => {
 
   if (!user) return res.status(404).json({ message: "User not Found" });
   try {
-    // await Users.update(
-    //   {
-    //     fullName: user.fullName,
-    //     email: user.email,
-    //     password: user.password,
-    //     role: user.role,
-    //     isEmailVerified: true,
-    //   },
-    //   {
-    //     where: {
-    //       id: user.id,
-    //     },
-    //   }
-    // );
+    await Users.update(
+      {
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+        isEmailVerified: true,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+      }
+    );
     res.status(200).json({ message: "Email has Verified" });
   } catch (error) {
     res.status(400).json(error.message);

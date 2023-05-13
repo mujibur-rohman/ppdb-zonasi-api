@@ -17,6 +17,13 @@ const RegisterPeriod = db.define("register_period", {
       notEmpty: true,
     },
   },
+  maxDistance: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
   startDate: {
     type: DataTypes.DATE,
     allowNull: false,

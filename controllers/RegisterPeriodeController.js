@@ -5,7 +5,8 @@ import RegisterPeriod from "../models/RegisterPeriodeModel.js";
 
 export const createRegisterPeriode = async (req, res) => {
   try {
-    const { tahunAjaran, startDate, kuota, endDate, userId } = req.body;
+    const { tahunAjaran, startDate, kuota, endDate, maxDistance, userId } =
+      req.body;
     // cek apakah tahun ajaran sudah tersedia
     const foundAvailable = await RegisterPeriod.findOne({
       where: {
@@ -22,6 +23,7 @@ export const createRegisterPeriode = async (req, res) => {
       tahunAjaran,
       startDate,
       endDate,
+      maxDistance,
     });
 
     // looping jurusan
@@ -58,7 +60,7 @@ export const getRegisterPeriode = async (req, res) => {
     const totalPage = Math.ceil(totalRows / limit);
 
     const registerPeriod = await RegisterPeriod.findAll({
-      attributes: ["id", "tahunAjaran", "startDate", "endDate"],
+      attributes: ["id", "tahunAjaran", "maxDistance", "startDate", "endDate"],
       where: {
         tahunAjaran: {
           [Op.like]: "%" + tahunAjaran + "%",
@@ -88,7 +90,7 @@ export const getRegisterPeriode = async (req, res) => {
 
 export const updateRegisterPeriode = async (req, res) => {
   try {
-    const { tahunAjaran, kuota, startDate, endDate } = req.body;
+    const { tahunAjaran, kuota, maxDistance, startDate, endDate } = req.body;
     const { id } = req.params;
     const registerPer = await RegisterPeriod.findOne({
       where: {
@@ -104,6 +106,7 @@ export const updateRegisterPeriode = async (req, res) => {
         tahunAjaran,
         startDate,
         endDate,
+        maxDistance,
       },
       { where: { id: registerPer.id } }
     );
