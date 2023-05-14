@@ -1,3 +1,4 @@
+import Document from "../models/DocumentModel.js";
 import Pendaftaran from "../models/PendaftaranModels.js";
 import Users from "../models/UsersModel.js";
 
@@ -8,6 +9,16 @@ export const getAllPendaftaran = async (req, res) => {
         {
           model: Users,
           attributes: ["fullName", "email"],
+        },
+        {
+          model: Document,
+          attributes: [
+            "raport",
+            "ijazah",
+            "kartuKeluarga",
+            "akte",
+            "piagamSertifikat",
+          ],
         },
       ],
     });

@@ -10,6 +10,7 @@ import RegisterPeriodRoute from "./routers/RegisterPeriodRoute.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import PendaftaranRoute from "./routers/PendaftaranRoute.js";
+import DocumentRoute from "./routers/DocumentRoutes.js";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static("public"));
 app.use(UserRoute);
 app.use(AuthRoute);
+app.use(DocumentRoute);
 app.use(PendaftaranRoute);
 app.use(ProfileSchoolRoute);
 app.use(JurusanRoute);
