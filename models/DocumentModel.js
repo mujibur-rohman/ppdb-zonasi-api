@@ -12,6 +12,20 @@ const Document = db.define(
         notEmpty: true,
       },
     },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    photoWithKord: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
     raport: {
       type: DataTypes.STRING,
       allowNull: false,

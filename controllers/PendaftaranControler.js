@@ -13,6 +13,8 @@ export const getAllPendaftaran = async (req, res) => {
         {
           model: Document,
           attributes: [
+            "photo",
+            "photoWithKord",
             "raport",
             "ijazah",
             "kartuKeluarga",

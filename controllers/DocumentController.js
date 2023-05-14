@@ -130,7 +130,6 @@ export const updateDocument = async (req, res) => {
         { where: { id: availableDocs.id } }
       );
       res.status(200).json("Document updated");
-      // res.status(200).json(objSource);
     } else {
       await Document.update(
         { pendaftaranId, ...bodySource },
