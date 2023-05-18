@@ -6,6 +6,7 @@ import {
   getAllPendaftaranUser,
   getByIdPendaftaran,
   getByUserPendaftaran,
+  incrementStatus,
   updatePendaftaran,
 } from "../controllers/PendaftaranControler.js";
 
@@ -20,6 +21,7 @@ PendaftaranRoute.get(
 );
 PendaftaranRoute.post("/pendaftaran", createPendaftaran);
 PendaftaranRoute.put("/pendaftaran/:id", updatePendaftaran);
+PendaftaranRoute.put("/status/pendaftaran/:id", incrementStatus);
 PendaftaranRoute.delete("/pendaftaran/:id", deletePendaftaran);
 
 export default PendaftaranRoute;

@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import db from "../config/database.js";
 import Users from "./UsersModel.js";
 import RegisterPeriod from "./RegisterPeriodeModel.js";
+import Jurusan from "./JurusanModels.js";
 
 const Pendaftaran = db.define(
   "pendaftaran",
@@ -156,5 +157,7 @@ Users.hasMany(Pendaftaran);
 Pendaftaran.belongsTo(Users, { foreignKey: "userId" });
 RegisterPeriod.hasMany(Pendaftaran);
 Pendaftaran.belongsTo(RegisterPeriod, { foreignKey: "registerPeriodId" });
+Jurusan.hasMany(Pendaftaran);
+Pendaftaran.belongsTo(Jurusan, { foreignKey: "jurusanId" });
 
 export default Pendaftaran;

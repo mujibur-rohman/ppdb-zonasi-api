@@ -1,5 +1,7 @@
 import Document from "../models/DocumentModel.js";
+import Jurusan from "../models/JurusanModels.js";
 import Pendaftaran from "../models/PendaftaranModels.js";
+import RegisterPeriod from "../models/RegisterPeriodeModel.js";
 import Users from "../models/UsersModel.js";
 import fs from "fs";
 
@@ -14,6 +16,7 @@ export const getAllPendaftaran = async (req, res) => {
         {
           model: Document,
           attributes: [
+            "id",
             "photo",
             "photoWithKord",
             "raport",
@@ -22,6 +25,9 @@ export const getAllPendaftaran = async (req, res) => {
             "akte",
             "piagamSertifikat",
           ],
+        },
+        {
+          model: Jurusan,
         },
       ],
     });
@@ -46,6 +52,7 @@ export const getAllPendaftaranUser = async (req, res) => {
         {
           model: Document,
           attributes: [
+            "id",
             "photo",
             "photoWithKord",
             "raport",
@@ -54,6 +61,12 @@ export const getAllPendaftaranUser = async (req, res) => {
             "akte",
             "piagamSertifikat",
           ],
+        },
+        {
+          model: RegisterPeriod,
+        },
+        {
+          model: Jurusan,
         },
       ],
     });
@@ -76,6 +89,7 @@ export const getByIdPendaftaran = async (req, res) => {
         {
           model: Document,
           attributes: [
+            "id",
             "photo",
             "photoWithKord",
             "raport",
@@ -84,6 +98,12 @@ export const getByIdPendaftaran = async (req, res) => {
             "akte",
             "piagamSertifikat",
           ],
+        },
+        {
+          model: RegisterPeriod,
+        },
+        {
+          model: Jurusan,
         },
       ],
     });
@@ -111,6 +131,7 @@ export const getByUserPendaftaran = async (req, res) => {
         {
           model: Document,
           attributes: [
+            "id",
             "photo",
             "photoWithKord",
             "raport",
@@ -170,6 +191,51 @@ export const updatePendaftaran = async (req, res) => {
       }
     );
     res.status(200).json({ message: "Pendaftaran berhasil diubah" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const incrementStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pendaftaran = await Pendaftaran.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!pendaftaran)
+      return res.status(404).json({ message: "Pendaftaran tidak ditemukan" });
+    await Pendaftaran.update(
+      {
+        userId: pendaftaran.userId,
+        registerPeriodId: pendaftaran.registerPeriodId,
+        jurusanId: pendaftaran.jurusanId,
+        fullName: pendaftaran.fullName,
+        placeBirth: pendaftaran.placeBirth,
+        birthday: pendaftaran.birthday,
+        religion: pendaftaran.religion,
+        gender: pendaftaran.gender,
+        fromSchool: pendaftaran.fromSchool,
+        nisn: pendaftaran.nisn,
+        address: pendaftaran.address,
+        kelurahan: pendaftaran.kelurahan,
+        kecamatan: pendaftaran.kecamatan,
+        kota: pendaftaran.kota,
+        provinsi: pendaftaran.provinsi,
+        kodePos: pendaftaran.kodePos,
+        status: pendaftaran.status + 1,
+        latitude: pendaftaran.latitude,
+        longitude: pendaftaran.longitude,
+        jarak: pendaftaran.jarak,
+      },
+      {
+        where: {
+          id: pendaftaran.id,
+        },
+      }
+    );
+    res.status(200).json({ message: "Status berhasil diubah" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
