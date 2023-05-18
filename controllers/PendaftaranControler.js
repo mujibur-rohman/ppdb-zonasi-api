@@ -31,6 +31,105 @@ export const getAllPendaftaran = async (req, res) => {
   }
 };
 
+export const getAllPendaftaranUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const response = await Pendaftaran.findAll({
+      where: {
+        userId,
+      },
+      include: [
+        {
+          model: Users,
+          attributes: ["fullName", "email"],
+        },
+        {
+          model: Document,
+          attributes: [
+            "photo",
+            "photoWithKord",
+            "raport",
+            "ijazah",
+            "kartuKeluarga",
+            "akte",
+            "piagamSertifikat",
+          ],
+        },
+      ],
+    });
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getByIdPendaftaran = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pendaftaran = await Pendaftaran.findOne({
+      where: { id },
+      include: [
+        {
+          model: Users,
+          attributes: ["fullName", "email"],
+        },
+        {
+          model: Document,
+          attributes: [
+            "photo",
+            "photoWithKord",
+            "raport",
+            "ijazah",
+            "kartuKeluarga",
+            "akte",
+            "piagamSertifikat",
+          ],
+        },
+      ],
+    });
+    if (!pendaftaran)
+      return res.status(404).json({ message: "Pendaftaran Not Found" });
+    res.json(pendaftaran);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getByUserPendaftaran = async (req, res) => {
+  try {
+    const { userId, registerPeriodId } = req.params;
+    const pendaftaran = await Pendaftaran.findOne({
+      where: {
+        userId,
+        registerPeriodId,
+      },
+      include: [
+        {
+          model: Users,
+          attributes: ["fullName", "email"],
+        },
+        {
+          model: Document,
+          attributes: [
+            "photo",
+            "photoWithKord",
+            "raport",
+            "ijazah",
+            "kartuKeluarga",
+            "akte",
+            "piagamSertifikat",
+          ],
+        },
+      ],
+    });
+    if (!pendaftaran)
+      return res.status(404).json({ message: "Pendaftaran Not Found" });
+    res.json(pendaftaran);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const createPendaftaran = async (req, res) => {
   try {
     const foundAvailable = await Pendaftaran.findOne({
@@ -53,10 +152,10 @@ export const createPendaftaran = async (req, res) => {
 
 export const updatePendaftaran = async (req, res) => {
   try {
+    const { id } = req.params;
     const pendaftaran = await Pendaftaran.findOne({
       where: {
-        registerPeriodId: req.body.registerPeriodId,
-        userId: req.body.userId,
+        id,
       },
     });
     if (!pendaftaran)
@@ -66,8 +165,7 @@ export const updatePendaftaran = async (req, res) => {
       { ...req.body },
       {
         where: {
-          registerPeriodId: req.body.registerPeriodId,
-          userId: req.body.userId,
+          id: pendaftaran.id,
         },
       }
     );

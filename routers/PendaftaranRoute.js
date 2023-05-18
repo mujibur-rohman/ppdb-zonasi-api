@@ -3,14 +3,23 @@ import {
   createPendaftaran,
   deletePendaftaran,
   getAllPendaftaran,
+  getAllPendaftaranUser,
+  getByIdPendaftaran,
+  getByUserPendaftaran,
   updatePendaftaran,
 } from "../controllers/PendaftaranControler.js";
 
 const PendaftaranRoute = express.Router();
 
 PendaftaranRoute.get("/pendaftaran", getAllPendaftaran);
+PendaftaranRoute.get("/pendaftaran/:id", getByIdPendaftaran);
+PendaftaranRoute.get("/pendaftaran/user/:userId", getAllPendaftaranUser);
+PendaftaranRoute.get(
+  "/pendaftaran/:userId/:registerPeriodId",
+  getByUserPendaftaran
+);
 PendaftaranRoute.post("/pendaftaran", createPendaftaran);
-PendaftaranRoute.put("/pendaftaran", updatePendaftaran);
+PendaftaranRoute.put("/pendaftaran/:id", updatePendaftaran);
 PendaftaranRoute.delete("/pendaftaran/:id", deletePendaftaran);
 
 export default PendaftaranRoute;

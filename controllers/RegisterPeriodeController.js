@@ -42,6 +42,30 @@ export const createRegisterPeriode = async (req, res) => {
   }
 };
 
+export const getCurrentPeriode = async (req, res) => {
+  const { year } = req.params;
+  try {
+    const regPer = await RegisterPeriod.findOne({
+      where: { tahunAjaran: `${year}/${year * 1 + 1}` },
+      include: [
+        {
+          model: Kuota,
+          attributes: ["id", "kuota"],
+          include: {
+            model: Jurusan,
+            attributes: ["id", "name"],
+          },
+        },
+      ],
+    });
+    if (!regPer)
+      return res.status(404).json({ message: "Periode Pendaftaran Not Found" });
+    res.status(200).json(regPer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const getRegisterPeriode = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
