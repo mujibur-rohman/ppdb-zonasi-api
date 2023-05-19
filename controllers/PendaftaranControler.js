@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Document from "../models/DocumentModel.js";
 import Jurusan from "../models/JurusanModels.js";
 import Pendaftaran from "../models/PendaftaranModels.js";
@@ -7,7 +8,44 @@ import fs from "fs";
 
 export const getAllPendaftaran = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || "";
+    const status = req.query.status || "";
+    const offset = limit * page - limit;
+
+    const totalRows = await Pendaftaran.count({
+      where: {
+        [Op.or]: [
+          {
+            fullName: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+        ],
+        status: {
+          [Op.like]: "%" + status + "%",
+        },
+      },
+    });
+    const totalPage = Math.ceil(totalRows / limit);
+
     const response = await Pendaftaran.findAll({
+      where: {
+        [Op.or]: [
+          {
+            fullName: {
+              [Op.like]: "%" + search + "%",
+            },
+          },
+        ],
+        status: {
+          [Op.like]: "%" + status + "%",
+        },
+      },
+      offset: offset,
+      limit: limit,
+      order: [["id", "DESC"]],
       include: [
         {
           model: Users,
@@ -31,7 +69,13 @@ export const getAllPendaftaran = async (req, res) => {
         },
       ],
     });
-    res.json(response);
+    res.status(200).json({
+      data: response,
+      page: page,
+      limit: limit,
+      totalRows: totalRows,
+      totalPage: totalPage,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
