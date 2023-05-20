@@ -56,10 +56,7 @@ const Document = db.define(
     },
     piagamSertifikat: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      allowNull: true,
     },
   },
   {

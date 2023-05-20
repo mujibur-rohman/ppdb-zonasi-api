@@ -41,7 +41,7 @@ export const addDocuments = async (req, res) => {
       } else {
         source = `${req.protocol}://${req.get("host")}/images/${fileName}`;
       }
-      const allowedType = [".png", ".jpg", ".jpeg", ".pdf"];
+      const allowedType = [".png", ".jpg", ".jpeg", ".pdf", ".jfif"];
       if (!allowedType.includes(ext.toLowerCase()))
         return res
           .status(422)
@@ -94,7 +94,7 @@ export const updateDocument = async (req, res) => {
         } else {
           source = `${req.protocol}://${req.get("host")}/images/${fileName}`;
         }
-        const allowedType = [".png", ".jpg", ".jpeg", ".pdf"];
+        const allowedType = [".png", ".jpg", ".jpeg", ".pdf", ".jfif"];
         if (!allowedType.includes(ext.toLowerCase()))
           return res
             .status(422)

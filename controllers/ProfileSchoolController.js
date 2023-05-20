@@ -110,7 +110,6 @@ export const updateProfileSchool = async (req, res) => {
       logo.mv(`./public/images/${fileName}`, (err) => {
         if (err) return res.status(500).json({ msg: err.message });
       });
-      console.log("DENGAN UPLOAD");
     }
 
     await ProfileSchool.update(
