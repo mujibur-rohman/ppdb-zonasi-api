@@ -11,6 +11,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import PendaftaranRoute from "./routers/PendaftaranRoute.js";
 import DocumentRoute from "./routers/DocumentRoutes.js";
+import StatusVerifyRoute from "./routers/StatusVerificationRoute.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(PendaftaranRoute);
 app.use(ProfileSchoolRoute);
 app.use(JurusanRoute);
 app.use(RegisterPeriodRoute);
+app.use(StatusVerifyRoute);
 
 (async () => {
   await db.sync();

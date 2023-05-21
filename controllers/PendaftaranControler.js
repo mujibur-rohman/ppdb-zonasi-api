@@ -40,7 +40,7 @@ export const getAllPendaftaran = async (req, res) => {
           },
         ],
         status: {
-          [Op.like]: "%" + status + "%",
+          [Op.like]: status,
         },
       },
       offset: offset,
