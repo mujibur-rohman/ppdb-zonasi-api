@@ -12,6 +12,7 @@ import fileUpload from "express-fileupload";
 import PendaftaranRoute from "./routers/PendaftaranRoute.js";
 import DocumentRoute from "./routers/DocumentRoutes.js";
 import StatusVerifyRoute from "./routers/StatusVerificationRoute.js";
+import QualificationRoute from "./routers/QualificationRoute.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use(ProfileSchoolRoute);
 app.use(JurusanRoute);
 app.use(RegisterPeriodRoute);
 app.use(StatusVerifyRoute);
+app.use(QualificationRoute);
 
 (async () => {
   await db.sync();
