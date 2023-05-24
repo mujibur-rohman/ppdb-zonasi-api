@@ -9,7 +9,11 @@ export const getAllqualification = async (req, res) => {
         jurusanId: {
           [Op.like]: "%" + jurusanId + "%",
         },
+        status: {
+          [Op.gt]: 0,
+        },
       },
+      order: [["jarak", "ASC"]],
     });
 
     res.status(200).json(qualification);
