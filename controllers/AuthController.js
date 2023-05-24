@@ -2,6 +2,7 @@ import argon2 from "argon2";
 import Users from "../models/UsersModel.js";
 import jwt from "jsonwebtoken";
 import { ADMIN_ROLES, SISWA_ROLES } from "../constants/roles.js";
+import sendVerificationEmail from "../utils/sendVerificationEmail.js";
 
 export const LoginAdmin = async (req, res) => {
   try {
@@ -121,14 +122,14 @@ export const RegisterSiswa = async (req, res) => {
       },
     });
     if (user) return res.status(400).json({ message: "Email Sudah Terdaftar" });
-    await Users.create({
+    const userNew = await Users.create({
       fullName,
       email,
       password: hashPassword,
       role: 2,
       isEmailVerified: false,
     });
-    await sendVerificationEmail(email);
+    await sendVerificationEmail(userNew);
     res.status(201).json({ message: "Email Berhasil Terdaftar" });
   } catch (error) {
     res.status(400).json(error.message);
