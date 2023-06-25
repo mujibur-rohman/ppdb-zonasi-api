@@ -68,6 +68,7 @@ export const createProfileSchool = async (req, res) => {
 
 export const updateProfileSchool = async (req, res) => {
   try {
+    console.log(req.files);
     const {
       schoolName,
       address,

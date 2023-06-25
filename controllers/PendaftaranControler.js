@@ -40,7 +40,7 @@ export const getAllPendaftaran = async (req, res) => {
           },
         ],
         status: {
-          [Op.like]: status,
+          [Op.like]: "%" + status + "%",
         },
       },
       offset: offset,
@@ -56,7 +56,6 @@ export const getAllPendaftaran = async (req, res) => {
           attributes: [
             "id",
             "photo",
-            "photoWithKord",
             "raport",
             "ijazah",
             "kartuKeluarga",
@@ -98,7 +97,6 @@ export const getAllPendaftaranUser = async (req, res) => {
           attributes: [
             "id",
             "photo",
-            "photoWithKord",
             "raport",
             "ijazah",
             "kartuKeluarga",
@@ -135,7 +133,6 @@ export const getByIdPendaftaran = async (req, res) => {
           attributes: [
             "id",
             "photo",
-            "photoWithKord",
             "raport",
             "ijazah",
             "kartuKeluarga",
@@ -177,7 +174,6 @@ export const getByUserPendaftaran = async (req, res) => {
           attributes: [
             "id",
             "photo",
-            "photoWithKord",
             "raport",
             "ijazah",
             "kartuKeluarga",
@@ -301,7 +297,6 @@ export const deletePendaftaran = async (req, res) => {
     if (document) {
       const docs = {
         photo: document.photo,
-        photoWithKord: document.photoWithKord,
         ijazah: document.ijazah,
         akte: document.akte,
         kartuKeluarga: document.kartuKeluarga,

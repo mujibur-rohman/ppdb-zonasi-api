@@ -141,7 +141,7 @@ const Pendaftaran = db.define(
       },
     },
     jarak: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         notEmpty: true,

@@ -15,6 +15,8 @@ export const getDocuments = async (req, res) => {
 export const addDocuments = async (req, res) => {
   try {
     const { pendaftaranId } = req.body;
+    if (req.files === null)
+      return res.status(400).json({ message: "No File Uploaded" });
     const { ...docs } = req.files;
     const availablePendaftaran = await Pendaftaran.findOne({
       where: {
