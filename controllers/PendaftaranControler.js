@@ -80,6 +80,44 @@ export const getAllPendaftaran = async (req, res) => {
   }
 };
 
+export const getAllPendaftaranNoPagination = async (req, res) => {
+  try {
+    const status = req.query.status || "";
+    const response = await Pendaftaran.findAll({
+      where: {
+        status: {
+          [Op.like]: "%" + status + "%",
+        },
+      },
+      order: [["id", "DESC"]],
+      include: [
+        {
+          model: Users,
+          attributes: ["fullName", "email"],
+        },
+        {
+          model: Document,
+          attributes: [
+            "id",
+            "photo",
+            "raport",
+            "ijazah",
+            "kartuKeluarga",
+            "akte",
+            "piagamSertifikat",
+          ],
+        },
+        {
+          model: Jurusan,
+        },
+      ],
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const getAllPendaftaranUser = async (req, res) => {
   try {
     const { userId } = req.params;

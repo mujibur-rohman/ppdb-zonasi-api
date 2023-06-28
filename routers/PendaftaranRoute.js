@@ -3,6 +3,7 @@ import {
   createPendaftaran,
   deletePendaftaran,
   getAllPendaftaran,
+  getAllPendaftaranNoPagination,
   getAllPendaftaranUser,
   getByIdPendaftaran,
   getByUserPendaftaran,
@@ -13,6 +14,7 @@ import {
 const PendaftaranRoute = express.Router();
 
 PendaftaranRoute.get("/pendaftaran", getAllPendaftaran);
+PendaftaranRoute.get("/pendaftaran/all", getAllPendaftaranNoPagination);
 PendaftaranRoute.get("/pendaftaran/:id", getByIdPendaftaran);
 PendaftaranRoute.get("/pendaftaran/user/:userId", getAllPendaftaranUser);
 PendaftaranRoute.get(
