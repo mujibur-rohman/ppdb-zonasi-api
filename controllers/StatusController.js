@@ -87,6 +87,7 @@ export const statusVerification = async (req, res) => {
           }
         );
       });
+      // return res.json({ message: "Berhasil Di Verifikasi" });
     }
     const disqualified = qualifiedPendaftar.splice(getKuotaCurrent.kuota);
     qualifiedPendaftar.forEach(async (element) => {
