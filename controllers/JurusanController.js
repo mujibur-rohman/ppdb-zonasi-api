@@ -1,8 +1,16 @@
 import Jurusan from "../models/JurusanModels.js";
+import Pendaftaran from "../models/PendaftaranModels.js";
 
 export const getJurusan = async (req, res) => {
   try {
-    const jurusan = await Jurusan.findAll();
+    const jurusan = await Jurusan.findAll({
+      include: [
+        {
+          model: Pendaftaran,
+          attributes: ["id"],
+        },
+      ],
+    });
 
     res.status(200).json(jurusan);
   } catch (error) {

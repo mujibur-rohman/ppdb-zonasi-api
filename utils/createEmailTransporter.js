@@ -5,8 +5,8 @@ const createMailTransporter = () => {
     host: "smtp.gmail.com",
     service: "gmail",
     auth: {
-      user: "mujiburrohman065@gmail.com", // generated ethereal user
-      pass: "hwcnapqwwcxyyvln", // generated ethereal password
+      user: "ppdb.sma.negeri155jakarta@gmail.com", // generated ethereal user
+      pass: "cqfowjjvqkcvfcfq", // generated ethereal password
     },
   });
   return transporter;

@@ -13,6 +13,7 @@ import PendaftaranRoute from "./routers/PendaftaranRoute.js";
 import DocumentRoute from "./routers/DocumentRoutes.js";
 import StatusVerifyRoute from "./routers/StatusVerificationRoute.js";
 import QualificationRoute from "./routers/QualificationRoute.js";
+import DashboardRoute from "./routers/DashboardRoute.js";
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use(JurusanRoute);
 app.use(RegisterPeriodRoute);
 app.use(StatusVerifyRoute);
 app.use(QualificationRoute);
+app.use(DashboardRoute);
 
 (async () => {
   await db.sync();

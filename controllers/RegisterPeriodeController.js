@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import Jurusan from "../models/JurusanModels.js";
 import Kuota from "../models/KuotaModel.js";
 import RegisterPeriod from "../models/RegisterPeriodeModel.js";
+import Pendaftaran from "../models/PendaftaranModels.js";
 
 export const createRegisterPeriode = async (req, res) => {
   try {
@@ -137,6 +138,66 @@ export const updateRegisterPeriode = async (req, res) => {
 
     // looping jurusan
     kuota.forEach(async (item) => {
+      const pendaftar = await Pendaftaran.findAll({
+        where: {
+          [Op.and]: [
+            { jurusanId: item.jurusan },
+            {
+              status: {
+                [Op.gt]: 0,
+              },
+            },
+          ],
+        },
+        order: [["jarak", "ASC"]],
+      });
+
+      const currentKuota = item.kuota;
+
+      // Jika jumlah kualifikasi lebih kecil dari kuota
+      if (pendaftar.length <= currentKuota) {
+        pendaftar.forEach(async (element) => {
+          await Pendaftaran.update(
+            {
+              status: 1, // di ubah menjadi 1 (kualifikasi)
+            },
+            {
+              where: {
+                id: element.id,
+              },
+            }
+          );
+        });
+      }
+
+      const disqualified = pendaftar.splice(currentKuota);
+      pendaftar.forEach(async (element) => {
+        await Pendaftaran.update(
+          {
+            status: 1,
+          },
+          {
+            where: {
+              id: element.id,
+            },
+          }
+        );
+      });
+
+      disqualified.forEach(async (element) => {
+        await Pendaftaran.update(
+          {
+            status: 2, // di ubah menjadi 2 (diskualifikasi)
+          },
+          {
+            where: {
+              id: element.id,
+            },
+          }
+        );
+      });
+
+      // Update kuota
       await Kuota.update(
         {
           registerPeriodId: registerPer.id,
