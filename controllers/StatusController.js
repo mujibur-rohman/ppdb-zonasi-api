@@ -44,26 +44,7 @@ export const statusVerification = async (req, res) => {
 
     await Pendaftaran.update(
       {
-        userId: pendaftarCurrent.userId,
-        registerPeriodId: pendaftarCurrent.registerPeriodId,
-        jurusanId: pendaftarCurrent.jurusanId,
-        fullName: pendaftarCurrent.fullName,
-        placeBirth: pendaftarCurrent.placeBirth,
-        birthday: pendaftarCurrent.birthday,
-        religion: pendaftarCurrent.religion,
-        gender: pendaftarCurrent.gender,
-        fromSchool: pendaftarCurrent.fromSchool,
-        nisn: pendaftarCurrent.nisn,
-        address: pendaftarCurrent.address,
-        kelurahan: pendaftarCurrent.kelurahan,
-        kecamatan: pendaftarCurrent.kecamatan,
-        kota: pendaftarCurrent.kota,
-        provinsi: pendaftarCurrent.provinsi,
-        kodePos: pendaftarCurrent.kodePos,
         status: isOverDistanceStatus,
-        latitude: pendaftarCurrent.latitude,
-        longitude: pendaftarCurrent.longitude,
-        jarak: pendaftarCurrent.jarak,
       },
       {
         where: {
@@ -97,26 +78,7 @@ export const statusVerification = async (req, res) => {
       qualifiedPendaftar.forEach(async (element) => {
         await Pendaftaran.update(
           {
-            userId: element.userId,
-            registerPeriodId: element.registerPeriodId,
-            jurusanId: element.jurusanId,
-            fullName: element.fullName,
-            placeBirth: element.placeBirth,
-            birthday: element.birthday,
-            religion: element.religion,
-            gender: element.gender,
-            fromSchool: element.fromSchool,
-            nisn: element.nisn,
-            address: element.address,
-            kelurahan: element.kelurahan,
-            kecamatan: element.kecamatan,
-            kota: element.kota,
-            provinsi: element.provinsi,
-            kodePos: element.kodePos,
             status: 1, // di ubah menjadi 1 (kualifikasi)
-            latitude: element.latitude,
-            longitude: element.longitude,
-            jarak: element.jarak,
           },
           {
             where: {
@@ -131,26 +93,7 @@ export const statusVerification = async (req, res) => {
     qualifiedPendaftar.forEach(async (element) => {
       await Pendaftaran.update(
         {
-          userId: element.userId,
-          registerPeriodId: element.registerPeriodId,
-          jurusanId: element.jurusanId,
-          fullName: element.fullName,
-          placeBirth: element.placeBirth,
-          birthday: element.birthday,
-          religion: element.religion,
-          gender: element.gender,
-          fromSchool: element.fromSchool,
-          nisn: element.nisn,
-          address: element.address,
-          kelurahan: element.kelurahan,
-          kecamatan: element.kecamatan,
-          kota: element.kota,
-          provinsi: element.provinsi,
-          kodePos: element.kodePos,
           status: 1,
-          latitude: element.latitude,
-          longitude: element.longitude,
-          jarak: element.jarak,
         },
         {
           where: {
@@ -163,26 +106,7 @@ export const statusVerification = async (req, res) => {
     disqualified.forEach(async (element) => {
       await Pendaftaran.update(
         {
-          userId: element.userId,
-          registerPeriodId: element.registerPeriodId,
-          jurusanId: element.jurusanId,
-          fullName: element.fullName,
-          placeBirth: element.placeBirth,
-          birthday: element.birthday,
-          religion: element.religion,
-          gender: element.gender,
-          fromSchool: element.fromSchool,
-          nisn: element.nisn,
-          address: element.address,
-          kelurahan: element.kelurahan,
-          kecamatan: element.kecamatan,
-          kota: element.kota,
-          provinsi: element.provinsi,
-          kodePos: element.kodePos,
           status: 2, // di ubah menjadi 2 (diskualifikasi)
-          latitude: element.latitude,
-          longitude: element.longitude,
-          jarak: element.jarak,
         },
         {
           where: {
