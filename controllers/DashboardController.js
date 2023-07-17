@@ -40,17 +40,3 @@ export const getPendaftarStatus = async (req, res) => {
     res.status(400).json(error.message);
   }
 };
-
-export const getPendaftarJurusan = async (req, res) => {
-  try {
-    const jurusan = await Jurusan.findAll();
-
-    const pendaftar = await Pendaftaran.findAll();
-
-    console.log(pendaftar);
-
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-};
